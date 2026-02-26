@@ -1,0 +1,26 @@
+--- nas.cc.orig 2023-09-23 13:44:50.551650549 +0300
++++ nas.cc      2023-09-23 13:47:31.701447260 +0300
+@@ -776,9 +776,12 @@
+   LIBLTE_MME_ATTACH_ACCEPT_MSG_STRUCT attach_accept = {};
+   liblte_mme_unpack_attach_accept_msg((LIBLTE_BYTE_MSG_STRUCT*)pdu.get(), &attach_accept);
+
+-  if (attach_accept.eps_attach_result == LIBLTE_MME_EPS_ATTACH_RESULT_EPS_ONLY) {
++/*  if (attach_accept.eps_attach_result == LIBLTE_MME_EPS_ATTACH_RESULT_EPS_ONLY) { */
++  if ((attach_accept.eps_attach_result == LIBLTE_MME_EPS_ATTACH_RESULT_COMBINED_EPS_IMSI_ATTACH) ||
++      (attach_accept.eps_attach_result == LIBLTE_MME_EPS_ATTACH_RESULT_EPS_ONLY)) {
+     // TODO: Handle t3412.unit
+     // TODO: Handle tai_list
++    logger.info("Attach type %d in progress\n",attach_accept.eps_attach_result);
+     if (attach_accept.guti_present) {
+       memcpy(&ctxt.guti, &attach_accept.guti.guti, sizeof(LIBLTE_MME_EPS_MOBILE_ID_GUTI_STRUCT));
+       have_guti = true;
+@@ -1548,7 +1551,8 @@
+
+   logger.info("Generating attach request");
+
+-  attach_req.eps_attach_type = LIBLTE_MME_EPS_ATTACH_TYPE_EPS_ATTACH;
++/*  attach_req.eps_attach_type = LIBLTE_MME_EPS_ATTACH_TYPE_EPS_ATTACH; */
++  attach_req.eps_attach_type = LIBLTE_MME_EPS_ATTACH_TYPE_COMBINED_EPS_IMSI_ATTACH;
+
+   for (u_int32_t i = 0; i < 8; i++) {
+     attach_req.ue_network_cap.eea[i] = eea_caps[i];

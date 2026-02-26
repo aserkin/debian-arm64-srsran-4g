@@ -1,0 +1,20 @@
+services:
+  srsran:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: srsran
+    image: flyingpiglet/debian-arm64-srsran-4g:latest
+    privileged: true
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      # Configuration files
+      - ./config:/etc/srsran:rw
+      - ./build:/opt/srsran:rw
+
+    environment:
+      - TZ=Europe/Moscow
+    stdin_open: true   # equivalent to -i
+    tty: true          # equivalent to -t
+    command: bash
