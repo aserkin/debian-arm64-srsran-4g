@@ -1,0 +1,4 @@
+Current versions:
+srsRAN_4G 25.10.0
+bladeRF firmware 2.6.0
+FPGA version 0.16.0

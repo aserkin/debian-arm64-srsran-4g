@@ -67,8 +67,8 @@ RUN cmake ../
 RUN make -j`nproc`
 RUN make install
 RUN ldconfig
-#RUN ./srsran_install_configs.sh service
+# RUN ./srsran_install_configs.sh service
 WORKDIR /opt/srsran
-RUN rm -rf czmq libzmq bladeRF srsRAN_4G
+# RUN rm -rf czmq libzmq bladeRF srsRAN_4G
 RUN apt-get remove -y build-essential cmake doxygen
 WORKDIR /root
